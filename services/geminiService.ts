@@ -162,17 +162,23 @@ export const generateTypingContent = async (
   mode: 'words' | 'sentences',
   difficulty: 'easy' | 'hard' = 'easy'
 ): Promise<string[]> => {
-  // Simulate async but return immediately with local data
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      if (mode === 'words') {
-        const wordCount = difficulty === 'hard' ? 50 : 40;
-        resolve(getRandomWords(wordCount, difficulty));
-      } else {
-        const sentenceText = getRandomSentences(2);
-        // Split into words for consistency
-        resolve(sentenceText.split(' ').filter(word => word.length > 0));
-      }
-    }, 10); // Small delay to simulate async but instant loading
-  });
+  // Return immediately with local data - no external API calls
+  try {
+    if (mode === 'words') {
+      const wordCount = difficulty === 'hard' ? 50 : 40;
+      const words = getRandomWords(wordCount, difficulty);
+      console.log('Generated words:', words.length);
+      return words;
+    } else {
+      const sentenceText = getRandomSentences(2);
+      // Split into words for consistency
+      const words = sentenceText.split(' ').filter(word => word.length > 0);
+      console.log('Generated sentences as words:', words.length);
+      return words;
+    }
+  } catch (error) {
+    console.error('Error in generateTypingContent:', error);
+    // Fallback to ensure we always return something
+    return COMMON_WORDS.slice(0, 40);
+  }
 };

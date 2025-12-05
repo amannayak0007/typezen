@@ -26,10 +26,20 @@ const MiniGameRain: React.FC<MiniGameRainProps> = ({ onFinish }) => {
   // Initialize Word Bank
   useEffect(() => {
     const init = async () => {
-      const fetched = await generateTypingContent('words', 'easy');
-      setWordBank(fetched);
-      setGameState(GameState.PLAYING);
-      if (inputRef.current) inputRef.current.focus();
+      try {
+        const fetched = await generateTypingContent('words', 'easy');
+        if (fetched && fetched.length > 0) {
+          setWordBank(fetched);
+          setGameState(GameState.PLAYING);
+          if (inputRef.current) inputRef.current.focus();
+        } else {
+          console.error('No words generated');
+          setGameState(GameState.PLAYING);
+        }
+      } catch (error) {
+        console.error('Error initializing rain game:', error);
+        setGameState(GameState.PLAYING);
+      }
     };
     init();
   }, []);

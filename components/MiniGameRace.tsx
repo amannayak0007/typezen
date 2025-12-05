@@ -18,13 +18,23 @@ const MiniGameRace: React.FC<MiniGameRaceProps> = ({ onFinish }) => {
 
   useEffect(() => {
     const init = async () => {
-      // Generate a sentence for the race
-      const sentences = await generateTypingContent('sentences', 'easy');
-      // Flatten to string if it's an array, take first 2
-      const text = Array.isArray(sentences) ? sentences.slice(0, 15).join(' ') : sentences; 
-      setTargetText(text);
-      setGameState(GameState.IDLE);
-      if (inputRef.current) inputRef.current.focus();
+      try {
+        // Generate a sentence for the race
+        const sentences = await generateTypingContent('sentences', 'easy');
+        // Flatten to string if it's an array, take first 15 words
+        const text = Array.isArray(sentences) ? sentences.slice(0, 15).join(' ') : sentences; 
+        if (text && text.length > 0) {
+          setTargetText(text);
+          setGameState(GameState.IDLE);
+          if (inputRef.current) inputRef.current.focus();
+        } else {
+          console.error('No sentences generated');
+          setGameState(GameState.IDLE);
+        }
+      } catch (error) {
+        console.error('Error initializing race:', error);
+        setGameState(GameState.IDLE);
+      }
     };
     init();
     return () => clearInterval(botInterval.current as NodeJS.Timeout);

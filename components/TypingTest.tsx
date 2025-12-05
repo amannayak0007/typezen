@@ -25,11 +25,21 @@ const TypingTest: React.FC<TypingTestProps> = ({ onFinish, gameMode }) => {
   // Initialize game
   useEffect(() => {
     const init = async () => {
-      setGameState(GameState.LOADING);
-      const generated = await generateTypingContent('words', 'easy');
-      setWords(generated);
-      setGameState(GameState.IDLE);
-      if (inputRef.current) inputRef.current.focus();
+      try {
+        setGameState(GameState.LOADING);
+        const generated = await generateTypingContent('words', 'easy');
+        if (generated && generated.length > 0) {
+          setWords(generated);
+          setGameState(GameState.IDLE);
+          if (inputRef.current) inputRef.current.focus();
+        } else {
+          console.error('No words generated');
+          setGameState(GameState.IDLE);
+        }
+      } catch (error) {
+        console.error('Error initializing game:', error);
+        setGameState(GameState.IDLE);
+      }
     };
     init();
     return () => clearInterval(timerRef.current as NodeJS.Timeout);
