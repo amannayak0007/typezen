@@ -1,0 +1,5 @@
+{
+  "name": "TypeZen",
+  "description": "A minimalist, Apple-inspired typing practice app featuring WPM tracking, dynamic content generation via Gemini, and interactive mini-games.",
+  "requestFramePermissions": []
+}
