@@ -39,6 +39,10 @@
         0%, 100% { opacity: 1; }
         50% { opacity: 0; }
       }
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+      }
     </style>
   <script type="importmap">
 {
@@ -53,7 +57,14 @@
 <link rel="stylesheet" href="/index.css">
 </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div style="display: flex; justify-content: center; align-items: center; min-height: 100vh; color: #e4e4e7; font-family: 'Inter', sans-serif;">
+        <div style="text-align: center;">
+          <div style="color: #fbbf24; font-size: 1.5rem; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace;">TypeZen</div>
+          <div style="color: #a1a1aa; animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;">Loading...</div>
+        </div>
+      </div>
+    </div>
     <script type="module" src="/index.tsx"></script>
   </body>
 </html>

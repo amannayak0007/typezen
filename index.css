@@ -1,0 +1,11 @@
+/* Base styles - Tailwind is loaded via CDN, this is for any custom overrides */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  min-height: 100vh;
+  width: 100%;
+}
+
